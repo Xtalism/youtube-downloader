@@ -1,63 +1,27 @@
 import tkinter
 import customtkinter
-import os
+import directoryOs
 from pytube import YouTube
 from pytube import Playlist
-
-            
-def directory(path):
-            
-    if os.path.exists(r'C:\Users\manue\Downloads\pytube'):
-        os.chdir(r'C:\Users\manue\Downloads\pytube')
-    else:
-        os.chdir(r'C:\Users\manue\Downloads')
-        os.mkdir("pytube")
-        os.chdir(r'C:\Users\manue\Downloads\pytube')
-        
-    if path == "video":
-        if os.path.exists(r'C:\Users\manue\Downloads\pytube\video'):
-            os.chdir(r'C:\Users\manue\Downloads\pytube\video')
-        else:
-            os.chdir(r'C:\Users\manue\Downloads\pytube')
-            os.mkdir("video")
-            os.chdir(r'C:\Users\manue\Downloads\pytube\video')
-            
-    elif path == "audio":
-        if os.path.exists(r'C:\Users\manue\Downloads\pytube\audio'):
-            os.chdir(r'C:\Users\manue\Downloads\pytube\audio')
-        else:
-            os.chdir(r'C:\Users\manue\Downloads\pytube')
-            os.mkdir("audio")
-            os.chdir(r'C:\Users\manue\Downloads\pytube\audio')
-            
-    elif path == "playlist":
-        if os.path.exists(r'C:\Users\manue\Downloads\pytube\playlist'):
-            os.chdir(r'C:\Users\manue\Downloads\pytube\playlist')
-        else:
-            os.chdir(r'C:\Users\manue\Downloads\pytube')
-            os.mkdir("playlist")
-            os.chdir(r'C:\Users\manue\Downloads\pytube\playlist')
-            
-    return os.getcwd()
-                        
+    
 def videoDownloader():
     try:
-        youtubeLink = link.get()
+        youtubeLink = link.get() 
+        if not youtubeLink:
+            raise ValueError("Please enter a link")
+        
         ytObject = YouTube(youtubeLink, on_progress_callback=on_progress)
         video = ytObject.streams.get_highest_resolution()
 
         title.configure(text=ytObject.title, text_color="white")
         finishLabel.configure(text="")
         
-        download_path = directory("video")
+        download_path = directoryOs.directory("video")
         video.download(output_path=download_path)
         
         finishLabel.configure(text="Video Downloaded!", text_color="green")
         # print ("Download complete")
     except Exception as e:
-        if youtubeLink == "":
-            finishLabel.configure(text=f"Please Enter a Link {e}",text_color="red")
-        else:
             finishLabel.configure(text=f"Video Download Error! {e}",text_color="red")
             # print("YouTube link is invalid")
 
@@ -65,21 +29,21 @@ def videoDownloader():
 def audioDownloader():
     try:
         youtubeLink = link.get()
+        if not youtubeLink:
+            raise ValueError("Please enter a link")
+        
         ytObject = YouTube(youtubeLink, on_progress_callback=on_progress)
         audio = ytObject.streams.get_audio_only()
 
         title.configure(text=ytObject.title, text_color="white")
         finishLabel.configure(text="")
 
-        download_path = directory("audio")
+        download_path = directoryOs.directory("audio")
         audio.download(output_path=download_path)
 
         finishLabel.configure(text="Audio Downloaded!", text_color="green")
         # print ("Download complete")
     except Exception as e:
-        if youtubeLink == "":
-            finishLabel.configure(text=f"Please Enter a Link {e}",text_color="red")
-        else:
             finishLabel.configure(text=f"Audio Download Error! {e}",text_color="red")
             # print("YouTube link is invalid")
 
@@ -87,6 +51,8 @@ def audioDownloader():
 def playlistDownloader():
     try:
         playlistLink = link.get()
+        if not playlistLink:
+            raise ValueError("Please enter a link")
         p = Playlist(playlistLink)
         
         for video in p.video_urls:
@@ -97,7 +63,7 @@ def playlistDownloader():
                 title.configure(text=ytObject.title, text_color="white")
                 ply_finishLabel.configure(text="")
                 
-                download_path = directory("playlist")
+                download_path = directoryOs.directory("playlist")
                 playlist.download(output_path=download_path)
                             
                 ply_finishLabel.configure(text="Playlist Downloaded!", text_color="green")
@@ -106,9 +72,6 @@ def playlistDownloader():
                 ply_finishLabel.configure(text=f"Error downloading video: {e}", text_color="red")
                 continue
     except Exception as e:
-        if playlistLink == "":
-            ply_finishLabel.configure(text=f"Please Enter a Link {e}",text_color="red")
-        else:
             ply_finishLabel.configure(text=f"Playlist Download Error: {e}",text_color="red")
         
     
