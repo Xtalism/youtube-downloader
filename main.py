@@ -1,6 +1,6 @@
 import tkinter
 import customtkinter
-import directoryOs
+import directory
 from pytube import YouTube
 from pytube import Playlist
     
@@ -16,7 +16,7 @@ def videoDownloader():
         title.configure(text=ytObject.title, text_color="white")
         finishLabel.configure(text="")
         
-        download_path = directoryOs.directory("video")
+        download_path = directory.directory("video")
         video.download(output_path=download_path)
         
         finishLabel.configure(text="Video Downloaded!", text_color="green")
@@ -38,7 +38,7 @@ def audioDownloader():
         title.configure(text=ytObject.title, text_color="white")
         finishLabel.configure(text="")
 
-        download_path = directoryOs.directory("audio")
+        download_path = directory.directory("audio")
         audio.download(output_path=download_path)
 
         finishLabel.configure(text="Audio Downloaded!", text_color="green")
@@ -63,7 +63,7 @@ def playlistDownloader():
                 title.configure(text=ytObject.title, text_color="white")
                 ply_finishLabel.configure(text="")
                 
-                download_path = directoryOs.directory("playlist")
+                download_path = directory.directory("playlist")
                 playlist.download(output_path=download_path)
                             
                 ply_finishLabel.configure(text="Playlist Downloaded!", text_color="green")
