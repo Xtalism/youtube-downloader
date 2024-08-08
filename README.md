@@ -5,4 +5,4 @@ This project is still ongoing. Nevertheless, I can give a brief explanation on h
     py -3.12 -m venv {namefyourvirtualenvironment}
     py -m pip install -r requirements.txt
 
-![downloader](ytDownloader.jpeg)
+![downloader](downloader.jpeg)
